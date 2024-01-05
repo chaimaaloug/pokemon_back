@@ -4,9 +4,6 @@ app = FastAPI()
 
 @app.post("/predict")
 def predict(data: dict):
-    # Here, you handle POST requests
-    # ...
-
     prediction = {"result": "La prédiction de Pokémon"}
     return prediction
 
