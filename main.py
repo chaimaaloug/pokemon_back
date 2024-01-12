@@ -1,8 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
-
 # Enable CORS for all origins
 app.add_middleware(
     CORSMiddleware,
@@ -21,5 +19,4 @@ def predict(data: dict):
 
 @app.get("/get_predict")
 def get_prediction():
- 
     return {"message": "Get prédiction de Pokémon"}
