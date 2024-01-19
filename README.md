@@ -1,5 +1,5 @@
 # Pokémon Back
-<img width="724" alt="pokemons" src="https://github.com/chaimaaloug/pokemon_back/assets/49941834/64029c2f-d019-4e23-90f9-0244d45fbd21">
+<img width="854" alt="pokemons" src="https://github.com/chaimaaloug/pokemon_back/assets/49941834/64029c2f-d019-4e23-90f9-0244d45fbd21">
 
 ## Lancement du projet :
 
