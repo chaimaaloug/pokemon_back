@@ -12,6 +12,7 @@ types_pokemon = [type.capitalize() for type in types_pokemon]
 #Lire et charger les noms des pokémons
 df = pd.read_csv("app/data/pokemons.csv")
 pokemon_names = df["name"].tolist()
+pokemon_names = [type.capitalize() for type in pokemon_names]
 
 @router.get("/get_pokemon_types")
 def get_pokemon_types():
