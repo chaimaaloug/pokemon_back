@@ -20,3 +20,10 @@ def get_pokemon_types():
 @router.get("/get_pokemon_names")
 def get_pokemon_types():
     return {"pokemon_names": pokemon_names}
+
+@router.post("/send_selected_pokemons")
+def valider_pokemon(data: dict):
+    type1 = data.get("type1")
+    type2 = data.get("type2")
+
+    return {"message": f"Types sélectionnés : {type1}, {type2}"}
