@@ -142,3 +142,44 @@ def get_stats_chart(pokemon_name: str):
 
     # Renvoyer l'image au frontend
     return FileResponse(image_path, media_type="image/png")
+
+
+@router.get("/get_stats_radar_chart/{pokemon_name}")
+async def get_stats_chart(pokemon_name: str):
+    pokemon_data = df_pokemons[df_pokemons['name'] == pokemon_name.lower()]
+
+    pokemon_stats = {
+        "HP": int(pokemon_data.iloc[0]['hp']),
+        "Attack": int(pokemon_data.iloc[0]['atk']),
+        "Defense": int(pokemon_data.iloc[0]['def']),
+        "Special Attack": int(pokemon_data.iloc[0]['spatk']),
+        "Special Defense": int(pokemon_data.iloc[0]['spdef']),
+        "Speed": int(pokemon_data.iloc[0]['speed']),
+    }
+
+    labels = list(pokemon_stats.keys())
+    values = list(pokemon_stats.values())
+    num_stats = len(labels)
+    angles = np.linspace(0, 2 * np.pi, num_stats, endpoint=False).tolist()
+
+    values += values[:1]
+    angles += angles[:1]
+
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+    ax.fill(angles, values, color='red', alpha=0.25)
+
+    # labels and title
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(labels)
+
+    save_directory = 'static/media'
+    try:
+        os.makedirs(save_directory, exist_ok=True)
+    except OSError as e:
+        print(f"Erreur: {e}")
+
+    image_path = f'{save_directory}/{pokemon_name}_stats_radar_chart.png'
+    fig.savefig(image_path)
+    plt.close()
+
+    return FileResponse(image_path, media_type="image/png")
