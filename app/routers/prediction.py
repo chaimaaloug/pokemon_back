@@ -1,6 +1,11 @@
 from fastapi import APIRouter, HTTPException
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from fastapi.responses import FileResponse
+import os
 
 router = APIRouter()
 
@@ -83,3 +88,51 @@ def compare_pokemons(type1: str, type2: str):
         return {"message": message}
     else:
         return {"message": f"Données pour {type1} ou {type2} introuvables. Vérifiez les noms des Pokémon."}
+
+# Supposez que df_pokemons contient toutes les données des Pokémon
+def get_pokemon_stats(pokemon_name):
+    pokemon_data = df_pokemons[df_pokemons['name'] == pokemon_name.lower()]
+
+    if not pokemon_data.empty:
+        stats_data = {
+            "HP": int(pokemon_data.iloc[0]['hp']),
+            "Attack": int(pokemon_data.iloc[0]['atk']),
+            "Defense": int(pokemon_data.iloc[0]['def']),
+            "Special Attack": int(pokemon_data.iloc[0]['spatk']),
+            "Special Defense": int(pokemon_data.iloc[0]['spdef']),
+            "Speed": int(pokemon_data.iloc[0]['speed']),
+        }
+        return stats_data
+    else:
+        raise HTTPException(status_code=404, detail=f"Pokémon not found: {pokemon_name}")
+
+
+@router.get("/get_stats_chart/{pokemon_name}")
+def get_stats_chart(pokemon_name: str):
+
+    stats_data = get_pokemon_stats(pokemon_name)
+
+    # Créer le graphique avec Matplotlib
+    labels = ['HP', 'Attack', 'Defense', 'Speed']
+    values = [stats_data['HP'], stats_data['Attack'], stats_data['Defense'], stats_data['Speed']]
+
+    # Définir des couleurs spécifiques pour chaque statistique
+    colors = ['#159F8D', '#EC7147', '#5DB9FF', '#FBD643']
+
+    fig, ax = plt.subplots()
+    ax.bar(labels, values, color=colors)
+
+    save_directory = 'static/media'
+    
+    try:
+        os.makedirs(save_directory, exist_ok=True)
+    except OSError as e:
+        print(f"Error creating directory: {e}")
+
+    image_path = f'{save_directory}/{pokemon_name}_stats_chart.png'
+    fig.savefig(image_path)
+    
+    plt.close()
+
+    # Renvoyer l'image au frontend
+    return FileResponse(image_path, media_type="image/png")
