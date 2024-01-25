@@ -120,7 +120,12 @@ def get_stats_chart(pokemon_name: str):
     colors = ['#159F8D', '#EC7147', '#5DB9FF', '#FBD643']
 
     fig, ax = plt.subplots()
-    ax.bar(labels, values, color=colors)
+    bars = ax.bar(labels, values, color=colors)
+
+    # Ajouter les valeurs à l'intérieur de chaque barre
+    for bar, value in zip(bars, values):
+        yval = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, yval, round(value, 2), ha='center', va='bottom')
 
     save_directory = 'static/media'
     
