@@ -41,7 +41,8 @@ def get_pokemon_details(pokemon_name: str):
 
         pokemon_details = {
             "Name": pokemon_data.iloc[0]['name'],
-            "Type 1": pokemon_data.iloc[0]['type1'],
+            "Type1": pokemon_data.iloc[0]['type1'],
+            "Type2": convert_numpy_types(pokemon_data.iloc[0]['type2']) if not pd.isnull(pokemon_data.iloc[0]['type2']) else "",
             "HP": convert_numpy_types(pokemon_data.iloc[0]['hp']),
             "Attack": convert_numpy_types(pokemon_data.iloc[0]['atk']),
             "Defense": convert_numpy_types(pokemon_data.iloc[0]['def']),
@@ -113,7 +114,7 @@ def get_stats_chart(pokemon_name: str):
     stats_data = get_pokemon_stats(pokemon_name)
 
     # Créer le graphique avec Matplotlib
-    labels = ['HP', 'Attack', 'Defense', 'Speed']
+    labels = ['HP', 'Attaque', 'Défense', 'Vitesse']
     values = [stats_data['HP'], stats_data['Attack'], stats_data['Defense'], stats_data['Speed']]
 
     # Définir des couleurs spécifiques pour chaque statistique
