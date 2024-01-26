@@ -19,10 +19,12 @@ df_pokemons = pd.read_csv("app/data/pokemons.csv")
 pokemon_names = df_pokemons["name"].tolist()
 pokemon_names = [name.capitalize() for name in pokemon_names]
 
+#Récupérer les types des pokémons
 @router.get("/get_pokemon_types")
 def get_pokemon_types():
     return {"pokemon_types": types_pokemon}
 
+#Récupérer les noms des pokémons
 @router.get("/get_pokemon_names")
 def get_pokemon_names():
     return {"pokemon_names": pokemon_names}
@@ -69,11 +71,11 @@ def send_selected_pokemons(data: dict):
 
 def compare_pokemons(type1: str, type2: str):
 
-    type1 = type1.lower()
-    type2 = type2.lower()
+    type1 = type1.capitalize()
+    type2 = type2.capitalize()
 
-    pokemon1_data = df_pokemons[df_pokemons['name'] == type1]
-    pokemon2_data = df_pokemons[df_pokemons['name'] == type2]
+    pokemon1_data = df_pokemons[df_pokemons['name'] == type1.lower()]
+    pokemon2_data = df_pokemons[df_pokemons['name'] == type2.lower()]
 
     if not pokemon1_data.empty and not pokemon2_data.empty:
         total_pokemon1 = pokemon1_data.iloc[0]['total']
@@ -90,7 +92,9 @@ def compare_pokemons(type1: str, type2: str):
     else:
         return {"message": f"Données pour {type1} ou {type2} introuvables. Vérifiez les noms des Pokémon."}
 
-# Supposez que df_pokemons contient toutes les données des Pokémon
+
+
+# Affichage des stats de pokemons sous form de graph
 def get_pokemon_stats(pokemon_name):
     pokemon_data = df_pokemons[df_pokemons['name'] == pokemon_name.lower()]
 
