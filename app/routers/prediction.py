@@ -69,11 +69,11 @@ def send_selected_pokemons(data: dict):
 
 def compare_pokemons(type1: str, type2: str):
 
-    type1 = type1.lower()
-    type2 = type2.lower()
+    type1 = type1.capitalize()
+    type2 = type2.capitalize()
 
-    pokemon1_data = df_pokemons[df_pokemons['name'] == type1]
-    pokemon2_data = df_pokemons[df_pokemons['name'] == type2]
+    pokemon1_data = df_pokemons[df_pokemons['name'] == type1.lower()]
+    pokemon2_data = df_pokemons[df_pokemons['name'] == type2.lower()]
 
     if not pokemon1_data.empty and not pokemon2_data.empty:
         total_pokemon1 = pokemon1_data.iloc[0]['total']
@@ -90,7 +90,7 @@ def compare_pokemons(type1: str, type2: str):
     else:
         return {"message": f"Données pour {type1} ou {type2} introuvables. Vérifiez les noms des Pokémon."}
 
-# Supposez que df_pokemons contient toutes les données des Pokémon
+
 def get_pokemon_stats(pokemon_name):
     pokemon_data = df_pokemons[df_pokemons['name'] == pokemon_name.lower()]
 
