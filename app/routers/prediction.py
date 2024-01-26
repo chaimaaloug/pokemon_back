@@ -19,10 +19,12 @@ df_pokemons = pd.read_csv("app/data/pokemons.csv")
 pokemon_names = df_pokemons["name"].tolist()
 pokemon_names = [name.capitalize() for name in pokemon_names]
 
+#Récupérer les types des pokémons
 @router.get("/get_pokemon_types")
 def get_pokemon_types():
     return {"pokemon_types": types_pokemon}
 
+#Récupérer les noms des pokémons
 @router.get("/get_pokemon_names")
 def get_pokemon_names():
     return {"pokemon_names": pokemon_names}
@@ -91,6 +93,8 @@ def compare_pokemons(type1: str, type2: str):
         return {"message": f"Données pour {type1} ou {type2} introuvables. Vérifiez les noms des Pokémon."}
 
 
+
+# Affichage des stats de pokemons sous form de graph
 def get_pokemon_stats(pokemon_name):
     pokemon_data = df_pokemons[df_pokemons['name'] == pokemon_name.lower()]
 
