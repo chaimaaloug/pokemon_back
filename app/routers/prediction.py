@@ -80,9 +80,9 @@ def compare_pokemons(type1: str, type2: str):
         total_pokemon2 = pokemon2_data.iloc[0]['total']
 
         if total_pokemon1 > total_pokemon2:
-            message = f"{type1} est potentiellement plus fort que {type2}"
+            message = f"{type1} est potentiellement plus fort que {type2} de { total_pokemon1 - total_pokemon2 } points"
         elif total_pokemon1 < total_pokemon2:
-            message = f"{type2} est potentiellement plus fort que {type1}"
+            message = f"{type2} est potentiellement plus fort que {type1} de { total_pokemon2 - total_pokemon1 } points"
         else:
             message = f"{type1} et {type2} sont potentiellement égaux en termes de force"
 
